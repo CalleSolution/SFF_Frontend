@@ -1,8 +1,13 @@
 fetchMovies();
 
-var moviesList = document.getElementById("flex-container")
+var moviesList = document.getElementById("flex-container");
 
-var newFilmstudio = document.getElementById("")
+var addFilmstudioButton = document.getElementById("saveStudio");
+
+    addFilmstudioButton.addEventListener("click", function(){
+    studio = document.getElementById("studioName","studioPassword").value;
+    addStudio(studioName,studioPassword,true);
+})
 
 function fetchMovies(){
     fetch("https://localhost:44361/api/film")
@@ -12,7 +17,7 @@ function fetchMovies(){
     .then(function(json){
 
         console.log("fetchMovies",json);
-
+        moviesList.innerHTML = "";
         for(i=0; i< json.length; i++) {
             console.log(json[i].name)
             moviesList.insertAdjacentHTML("beforeend","<div class=movie-container>" + json[i].name + "</div>")
@@ -20,12 +25,14 @@ function fetchMovies(){
     })
 }
 
-function addStudio(name, password,verified){
+addStudio("Jockes","123",true);
+
+function addStudio(name, password, verified){
     console.log("Lägg till filmstudio");
 
     var newStudio = {name: name, password:password, verified:verified};
 
-    fetch ("https://localhost:44361/api/filmstudio", {
+    fetch ('https://localhost:44361/api/filmstudio', {
         method:'POST',
         headers:{
             'Content-Type':'application/json',
@@ -33,8 +40,8 @@ function addStudio(name, password,verified){
         body: JSON.stringify(newStudio),
     })
     .then(response => response.json())
-    .then (data => {
-        console.log('Success:', data);
+    .then (newStudio => {
+        console.log('Success:', newStudio);
         fetchMovies();
     })
     .catch((err) => {
