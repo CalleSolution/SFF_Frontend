@@ -1,3 +1,15 @@
+header
+{
+    background-color: cornflowerblue;
+    text-align: center;
+}
+header h1
+{
+    font-size: 72px;
+    font-family: monospace;
+    
+}
+
 body{
     background-color: lightgrey;
     font-family: Arial, Helvetica, sans-serif;
@@ -14,7 +26,7 @@ body{
 }
 
 
-#moviesList
+#flex-container
 {
     display:flex;
     justify-content: space-around;

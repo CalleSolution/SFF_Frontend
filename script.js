@@ -1,7 +1,8 @@
 fetchMovies();
 
-var moviesList = document.getElementById("moviesList")
+var moviesList = document.getElementById("flex-container")
 
+var newFilmstudio = document.getElementById("")
 
 function fetchMovies(){
     fetch("https://localhost:44361/api/film")
@@ -18,3 +19,25 @@ function fetchMovies(){
         }
     })
 }
+
+function addStudio(name, password,verified){
+    console.log("Lägg till filmstudio");
+
+    var newStudio = {name: name, password:password, verified:verified};
+
+    fetch ("https://localhost:44361/api/filmstudio", {
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+        },
+        body: JSON.stringify(newStudio),
+    })
+    .then(response => response.json())
+    .then (data => {
+        console.log('Success:', data);
+        fetchMovies();
+    })
+    .catch((err) => {
+        console.error('Error:',err);
+    }); 
+}   
