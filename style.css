@@ -3,17 +3,32 @@ body{
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.flex-container
+.movie-container
 {
-    display:flex;  
-}
-
-.flex-container div
-{
-    background-color:darkgray;
+    display:flex;
+    justify-content: space-around;
+    background-color:white;
     border: 1px black solid;
     height: 200px;
-    
+    flex-basis: 150px;
+}
+
+
+#moviesList
+{
+    display:flex;
     justify-content: space-around;
-    flex-wrap:wrap;
+    background-color:red;
+    border: 1px black solid;
+    height: 200px;
+}
+
+.movieItems
+{
+    display:flex;  
+    justify-content: space-around;
+    background-color:white;
+    border: 1px black solid;
+    height: 200px;
+    width: 180px
 }

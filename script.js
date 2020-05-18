@@ -14,7 +14,7 @@ function fetchMovies(){
 
         for(i=0; i< json.length; i++) {
             console.log(json[i].name)
-            moviesList.insertAdjacentHTML("beforeend",json[i].name)
+            moviesList.insertAdjacentHTML("beforeend","<div class=movie-container>" + json[i].name + "</div>")
         }
     })
 }
