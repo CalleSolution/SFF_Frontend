@@ -8,9 +8,12 @@
 </head>
 <body>
     <header><h1>SFF</h1></header>
-    <p>Lägg till en ny filmstudio:</p>
-   <p>Studionamn <input type="text" id="studioName"> Lösenord <input type="text" id="studioPassword"> <button id="saveStudio">Lägg till</button></p>
-    <div><p> </p></div>
+
+    <div id="login">
+        <button id="loginButton" onclick="Login()">Logga in</button> <button onclick="RegStudio()">Registrera Studio</button>
+    </div>
+
+   <div><p> </p></div>
     <h1 style="text-align: center;">Filmer</h1>
     <div>
         <div id="flex-container"></div>

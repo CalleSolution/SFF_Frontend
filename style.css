@@ -2,6 +2,8 @@ header
 {
     background-color: cornflowerblue;
     text-align: center;
+    margin:0px;
+    padding: 0px;
 }
 header h1
 {
@@ -43,4 +45,12 @@ body{
     border: 1px black solid;
     height: 200px;
     width: 180px
+}
+
+#login
+{
+    background-color: floralwhite;
+    margin:0px;
+    padding: -20px;
+    border: 1px solid black;
 }

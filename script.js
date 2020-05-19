@@ -1,18 +1,41 @@
+//Hämta alla filmer vid uppstart av sidan
 fetchMovies();
-
+//Skapa en lista av movies
 var moviesList = document.getElementById("flex-container");
 
-var addFilmstudioButton = document.getElementById("saveStudio");
+//Logga in på sitt konto
+var loginButton = document.getElementById("login");
 
-    addFilmstudioButton.addEventListener("click", function(){
-    studio = document.getElementById("studioName").value;
-    password = document.getElementById("studioPassword").value;
-    addStudio(studioName.value,studioPassword.value,true);
-    console.log(studioName.value,studioPassword.value,true);
-    
-    
-})
-
+function Login()
+{
+    console.log("Inloggningsläget");
+    loginButton.innerHTML="Logga in";
+    loginButton.insertAdjacentHTML("beforeend", 
+    "<br>Användarnamn: <input type='text' id='userName'></input>Lösenord: <input type='text' id='userPass'></input><button id='loginButton'>Logga in</button><p> </p>")
+    loginButton.addEventListener("click", function(){
+        var userLogin = document.getElementById("userName").value;
+        var userPassword = document.getElementById("userPass").value;
+        
+        fetchStudios(userLogin,userPassword)
+    });
+}
+//Registrera studio
+var registerButton = document.getElementById("login");
+function RegStudio() 
+{
+        console.log("Registreringsläget");
+        registerButton.innerHTML = "Registrera ny studio";
+        registerButton.insertAdjacentHTML("beforeend",  
+        "<br>Användarnamn: <input type='text' id='userName'></input>Lösenord: <input type='text' id='userPass'></input><button id='regButton'>Registrera</button><p> </p>")
+        regButton.addEventListener("click", function()
+        {
+        var studio = document.getElementById("userName").value;
+        var password = document.getElementById("userPass").value;
+        addStudio(studio,password,true);
+        console.log(studio,password,true);
+        });
+}
+//Funktion för att hämta alla filmer
 function fetchMovies(){
     fetch("https://localhost:44361/api/film")
     .then(function(response){
@@ -30,7 +53,7 @@ function fetchMovies(){
 }
 
 
-
+//Funktion för att lägga till nya Studios
 function addStudio(name, password, verified){
     console.log("Lägg till filmstudio");
 
@@ -52,3 +75,29 @@ function addStudio(name, password, verified){
         console.error('Error:',err);
     }); 
 }   
+
+//Funktion för att hämta alla Studios --- Skriver ut allting just nu
+function fetchStudios(userName,userPass)
+{
+    fetch("https://localhost:44361/api/filmstudio")
+    .then(function(response){
+                return response.json();
+    })
+    .then(function(json){
+
+        console.log("fetchStudios",json);
+        moviesList.innerHTML = "";
+        for(i=0; i< json.length; i++) 
+        {
+            if(userName == json[i].name && userPass == json[i].password)
+            {
+                console.log("Du loggade in!")
+            }
+            else
+            {
+                console.log("någonting gick fel!");
+            }
+           
+        }
+    });
+}
