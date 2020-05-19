@@ -5,8 +5,12 @@ var moviesList = document.getElementById("flex-container");
 var addFilmstudioButton = document.getElementById("saveStudio");
 
     addFilmstudioButton.addEventListener("click", function(){
-    studio = document.getElementById("studioName","studioPassword").value;
-    addStudio(studioName,studioPassword,true);
+    studio = document.getElementById("studioName").value;
+    password = document.getElementById("studioPassword").value;
+    addStudio(studioName.value,studioPassword.value,true);
+    console.log(studioName.value,studioPassword.value,true);
+    
+    
 })
 
 function fetchMovies(){
@@ -25,7 +29,7 @@ function fetchMovies(){
     })
 }
 
-addStudio("Jockes","123",true);
+
 
 function addStudio(name, password, verified){
     console.log("Lägg till filmstudio");
