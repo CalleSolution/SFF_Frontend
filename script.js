@@ -4,7 +4,7 @@ fetchTrivia();
 
 //Skapa en lista av movies
 var moviesList = document.getElementById("flex-container");
-
+var trivias = document.getElementById("trivia-container");
 
 //Logga in på sitt konto
 var loginButton = document.getElementById("login");
@@ -55,13 +55,29 @@ function fetchMovies(){
 
         console.log("fetchMovies",movie);
         moviesList.innerHTML = "";
+
         for(i=0; i< movie.length; i++) {
             console.log(movie[i].name)
-            moviesList.insertAdjacentHTML("beforeend","<div class=movie-container>" + movie[i].name + "</div>")
+            var movieId = movie[i].id;
+            moviesList.insertAdjacentHTML ("beforeend","<div class='movie-container' id='movieid' onclick='getmovieid("+movie[i].id+")'>" + movie[i].name + movie[i].id +"</div>")
         }
+        
     })
 }
+function getmovieid(id)
+{
+    fetch("https://localhost:44361/api/film")
+    .then(function(response){
+                return response.json();
+    })
+    .then(function(movie){
 
+        //console.log("fetchMovies",movie);
+        moviesList.innerHTML = "";
+        var getMovie = movie.find(a => a.id == id)
+        console.log(getMovie)
+    })
+}
 //Funktion för att hämta alla trivia
 function fetchTrivia(){
     fetch("https://localhost:44361/api/filmtrivia")
@@ -112,16 +128,18 @@ function fetchStudios(userName,userPass)
     })
     .then(function(json){
 
-        console.log("fetchStudios",json);
+        //console.log("fetchStudios",json);
         
-        var result = json.find(a => a.name == userName && a.password == userPass);
-        if (result === true)
+        var matchUserPassword = json.find(a => a.name  === userName && a.password === userPass);
+        console.log("det här händer " + matchUserPassword);
+        
+        if (userName == matchUserPassword.name && userPass == matchUserPassword.password)
         {    
                 login.innerHTML="";
                 console.log("Du loggade in!")
                 localStorage.setItem("userId",userName);
                 login.insertAdjacentHTML("beforeend", 
-                "<br><div>Du är inloggad som " + json[i].name + "<button id='logout'>Logga ut</button></div>")
+                "<br><div>Du är inloggad som " + matchUserPassword.name + "<button id='logout'>Logga ut</button></div>")
                 console.log(localStorage.getItem("userId"));
                 fetchMovies();
                 
@@ -132,6 +150,10 @@ function fetchStudios(userName,userPass)
                             "<br><div>Du är utloggad! <button id='loginButton' onclick='Login()'>Logga in</button> <button onclick='RegStudio()'>Registrera Studio</button></div>");
                             fetchMovies();
                         });        
+        }
+        else
+        {
+            console.log("felaktig inmatning!")
         }
         // for(i=0; i< json.length; i++) 
         // {
