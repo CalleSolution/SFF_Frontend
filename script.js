@@ -53,16 +53,18 @@ function fetchMovies(){
 
 ;
         moviesList.innerHTML = "";
+        moviebuttons.innerHTML="";
 
         for(i=0; i< movie.length; i++) {
-            moviesList.insertAdjacentHTML ("beforeend","<div class='movie-container'>" + movie[i].name + movie[i].id +"</div>")
+            moviesList.insertAdjacentHTML ("beforeend","<div class='movie-container' id='movieid' onclick='fetchMovieIdOffline("+movie[i].id+")'>" + movie[i].name + movie[i].id +"</div>")
         }
         
     })
 }
 
 //Hämta alla filmer för inloggad
-function fetchMoviesWhileLoggedIn(){
+function fetchMoviesWhileLoggedIn()
+{
     fetch("https://localhost:44361/api/film")
     .then(function(response){
                 return response.json();
@@ -79,7 +81,44 @@ function fetchMoviesWhileLoggedIn(){
            
     })
 }
+function fetchMovieIdOffline()
+{
+    fetch("https://localhost:44361/api/film")
+    .then(function(response){
+                return response.json();
+    })
+    .then(function(movie){
 
+
+        moviesList.innerHTML = "";
+        moviebuttons.innerHTML = "";
+
+        for(i=0; i< movie.length; i++) {
+            moviesList.insertAdjacentHTML ("beforeend","<div class='movie-container' id='movieid' onclick='getMovieIdOffline("+movie[i].id+")'>" + movie[i].name + movie[i].id +"</div>")
+        }
+           
+    })
+}
+//Visa en specifik film offline
+function getMovieIdOffline(id)
+{
+    fetch("https://localhost:44361/api/film")
+    .then(function(response){
+                return response.json();
+    })
+    .then(function(movie){
+
+        
+        moviesList.innerHTML = "";
+        moviebuttons.innerHTML="";
+        
+        var getMovie = movie.find(a => a.id == id)
+        moviesList.insertAdjacentHTML ("beforeend","<div class='movie-container'>" + getMovie.id + " " + getMovie.name +"</div>")
+        moviebuttons.insertAdjacentHTML ("beforeend", "<div id='movie-button'><button id='back' onclick='fetchMovies()'>Gå tillbaka</button><button onclick='fetchTriviaWhileOffline("+id+")'>Trivia</button></div>")     
+
+        
+    })
+}
 // Hämta en specifik film
 function getmovieid(id)
 {
@@ -89,16 +128,18 @@ function getmovieid(id)
     })
     .then(function(movie){
 
-        //console.log("fetchMovies",movie);
         moviesList.innerHTML = "";
+        moviebuttons.innerHTML="";
         
         var getMovie = movie.find(a => a.id == id)
         moviesList.insertAdjacentHTML ("beforeend","<div class='movie-container'>" + getMovie.id + " " + getMovie.name +"</div>")
-        moviebuttons.insertAdjacentHTML ("beforeend", "<div id='movie-button'><button onclick='rentMovie("+getMovie.id+")'>Låna Film</button><button id='back' onclick='fetchMoviesWhileLoggedIn()'>Gå tillbaka</button><button onclick='fetchTrivia("+id+")'>Trivia</button><button onclick='movieToReturn("+getMovie.id+")'>Lämna tillbaka film</div>")     
+        moviebuttons.insertAdjacentHTML ("beforeend", "<div id='movie-button'><button onclick='rentMovie("+getMovie.id+")'>Låna Film</button><button id='back' onclick='fetchMoviesWhileLoggedIn()'>Gå tillbaka</button><button onclick='fetchTrivia("+id+")'>Trivia</button><button onclick='movieToReturn("+getMovie.id+")'>Lämna tillbaka film</button></div>")     
 
         
     })
 }
+
+//Lämna tillbaka film
 function movieToReturn(movieId)
 {
     fetch("https://localhost:44361/api/RentedFilm")
@@ -140,7 +181,7 @@ function returnMovie(id,movieId)
         
     })
     .catch((err) => {
-        console.error('Error:',err);
+        console.log(err.message);
     });     
 }
 
@@ -187,6 +228,28 @@ function fetchTrivia(id){
         moviebuttons.insertAdjacentHTML("beforeend","<div class='movie-container'>"+'Trivia' + '<br>' + findTrivia[i].trivia + "</div>")
         }
         moviebuttons.insertAdjacentHTML ("afterbegin", "<div id='movie-button'><button onclick='RentReturnMovie()'>Låna Film</button><button id='back' onclick='fetchMoviesWhileLoggedIn()'>Gå tillbaka</button><button onclick='fetchTrivia("+id+")'>Trivia</button><button onclick='newTrivia("+id+")'>Lägg till trivia</button></div>")
+        
+    })
+}
+//Funktion för att hämta alla trivia offline
+function fetchTriviaWhileOffline(id){
+    fetch("https://localhost:44361/api/filmtrivia")
+    .then(function(response){
+                return response.json();
+    })
+    .then(function(trivia){
+
+        
+        moviesList.innerHTML ="";
+        moviebuttons.innerHTML = "";
+        var findTrivia = trivia.filter(a => a.filmId == id)
+        
+        for(i=0; i < findTrivia.length; i++)
+        {
+                 
+        moviebuttons.insertAdjacentHTML("beforeend","<div class='movie-container'>"+'Trivia' + '<br>' + findTrivia[i].trivia + "</div>")
+        }
+        moviebuttons.insertAdjacentHTML ("afterbegin", "<div id='movie-button'><button id='back' onclick='fetchMovies()'>Gå tillbaka</button></div>")
         
     })
 }
