@@ -1,4 +1,4 @@
-header
+h1 header
 {
     background-color: cornflowerblue;
     text-align: center;
@@ -34,7 +34,7 @@ body{
     justify-content: space-around;
     background-color:red;
     border: 1px black solid;
-    height: 200px;
+    
 }
 
 .movieItems
@@ -53,4 +53,9 @@ body{
     margin:0px;
     padding: -20px;
     border: 1px solid black;
+}
+
+#movie-button
+{
+    justify-content: space-between;
 }
